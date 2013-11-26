@@ -11,6 +11,8 @@ console.log """
 	<string>#{process.env.DOCSET_NAME}</string>
 	<key>DocSetPlatformFamily</key>
 	<string>#{process.env.DOCSET_ID}</string>
+	<key>dashIndexFilePath</key>
+	<string>#{process.env.DOCSET_INDEX_URL}</string>
 	<key>isDashDocset</key>
 	<true/>
 </dict>
