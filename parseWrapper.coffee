@@ -16,7 +16,7 @@ sqlite3 = require('sqlite3').verbose()
   parseContent
 } = require process.cwd() + '/parse'
 docsetName = process.env.DOCSET_NAME
-docsFolder = process.DOCSET_DOCS_FOLDER
+docsFolder = process.env.DOCSET_DOCS_FOLDER
 db = new sqlite3.Database process.env.DOCSET_SQL_DB
 
 unless filePattern?
