@@ -17,7 +17,8 @@ sqlite3 = require('sqlite3').verbose()
 } = require process.cwd() + '/parse'
 docsetName = process.env.DOCSET_NAME
 docsFolder = process.env.DOCSET_DOCS_FOLDER
-db = new sqlite3.Database process.env.DOCSET_SQL_DB
+console.error process.cwd() + '/' + process.env.DOCSET_SQL_DB
+db = new sqlite3.Database process.cwd() + '/' + process.env.DOCSET_SQL_DB
 
 unless filePattern?
   filePattern = "*.html"

@@ -1,4 +1,3 @@
-DOCSET_NAME := $(shell echo $(DOCSET_NAME))
 ifeq ($(DOCSET_NAME),)
 $(error DOCSET_NAME is not set)
 endif
@@ -11,8 +10,8 @@ guard-%:
 		exit 1; \
 	fi
 
-DOCSET_DOCS_FOLDER := "$(DOCSET_NAME).docset/Contents/Resources/Documents"
-DOCSET_SQL_DB := "$(DOCSET_NAME).docset/Contents/Resources/docset.dsidx"
+export DOCSET_DOCS_FOLDER=$(DOCSET_NAME).docset/Contents/Resources/Documents
+export DOCSET_SQL_DB=$(DOCSET_NAME).docset/Contents/Resources/docset.dsidx
 
 # PHONY
 .PHONY: install clean all prepublish publish docset help Makefile custom.mk
@@ -28,27 +27,15 @@ clean:
 	@sqlite3 $(DOCSET_SQL_DB) "DROP TABLE IF EXISTS searchIndex;"
 
 docset: guard-DOCSET_ID guard-DOCSET_VERSION guard-DOCSET_INDEX_URL guard-DOCSET_ENTRY_URL
-	@DOCSET_NAME="$(DOCSET_NAME)" \
-	DOCSET_SQL_DB="$(DOCSET_SQL_DB)" \
-	DOCSET_DOCS_FOLDER="$(DOCSET_DOCS_FOLDER)" \
-	./parseWrapper.coffee
-
-	@DOCSET_NAME="$(DOCSET_NAME)" \
-	DOCSET_VERSION="$(DOCSET_VERSION)" \
-	DOCSET_VERSION_PKG="$(DOCSET_VERSION_PKG)" \
-	DOCSET_ENTRY_URL="$(DOCSET_ENTRY_URL)" \
-	./feed.coffee > "$(DOCSET_NAME).xml"
-
-	@DOCSET_NAME="$(DOCSET_NAME)" \
-	DOCSET_ID="$(DOCSET_ID)" \
-	DOCSET_INDEX_URL="$(DOCSET_INDEX_URL)" \
-	DOCSET_ENTRY_URL="$(DOCSET_ENTRY_URL)" \
-	./Info.plist.coffee > "$(DOCSET_NAME).docset/Contents/Info.plist"
+	@./parseWrapper.coffee
+	@./feed.coffee > "$(DOCSET_NAME).xml"
+	@./Info.plist.coffee > "$(DOCSET_NAME).docset/Contents/Info.plist"
 
 prepublish: clean all
 
 publish:
-	@npm publish
+#	@npm publish
+	@npm pack
 
 # From http://stackoverflow.com/a/15058900
 help:
